@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#102a35">
+  <title>日本自駕情境模擬</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.3/dist/zephyr/bootstrap.min.css">
+  <link rel="stylesheet" href="style.css">
+  <script src="data.js" defer></script>
+  <script src="footage-data.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <div class="site-shell">
+    <header class="site-header navbar navbar-dark">
+      <button class="brand" id="home-button" type="button" aria-label="返回首頁">
+        <span class="brand-mark" aria-hidden="true">日</span>
+        <span>日本自駕<span class="brand-light">情境模擬</span></span>
+      </button>
+      <span class="header-caption">給台灣旅客的日本道路情境</span>
+    </header>
+    <main id="app" class="container" aria-live="polite"></main>
+    <footer class="site-footer">依題目來源練習判斷；實際上路請遵守現場標誌與最新規定。</footer>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
