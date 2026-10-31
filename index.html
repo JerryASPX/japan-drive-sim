@@ -3,8 +3,11 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#102a35">
+  <meta name="theme-color" content="#fbf6ef">
   <title>日本自駕情境模擬</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.3/dist/zephyr/bootstrap.min.css">
   <link rel="stylesheet" href="style.css">
   <script src="data.js" defer></script>
@@ -13,12 +16,23 @@
 </head>
 <body>
   <div class="site-shell">
-    <header class="site-header navbar navbar-dark">
-      <button class="brand" id="home-button" type="button" aria-label="返回首頁">
-        <span class="brand-mark" aria-hidden="true">日</span>
-        <span>日本自駕<span class="brand-light">情境模擬</span></span>
-      </button>
-      <span class="header-caption">給台灣旅客的日本道路情境</span>
+    <header class="site-header">
+      <div class="header-inner">
+        <button class="brand" id="home-button" type="button" aria-label="返回首頁">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="22" height="22">
+              <path fill="currentColor" d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7zm0 9.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5z"/>
+            </svg>
+          </span>
+          <span class="brand-name">日本自駕<span class="brand-light">情境模擬</span></span>
+        </button>
+        <p class="header-caption">
+          <svg class="caption-icon" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+            <path fill="currentColor" d="M6 3.5A2.5 2.5 0 0 0 3.5 6v12A2.5 2.5 0 0 0 6 20.5h13.5V3.5H6zm1.5 2h10v11h-10v-11zM7 18h10.5v.5a.5.5 0 0 1-.5.5H7.5a.5.5 0 0 1-.5-.5V18z"/>
+          </svg>
+          給台灣旅客的日本道路情境
+        </p>
+      </div>
     </header>
     <main id="app" class="container" aria-live="polite"></main>
     <footer class="site-footer">依題目來源練習判斷；實際上路請遵守現場標誌與最新規定。</footer>

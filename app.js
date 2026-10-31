@@ -307,16 +307,48 @@
     return info ? el('span', info.className, info.label) : null;
   }
 
+  function heroArt() {
+    const art = el('div', 'hero-art');
+    art.setAttribute('aria-hidden', 'true');
+    art.innerHTML = `<svg viewBox="0 0 560 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M36 214 132 118l52 48 70-78 46 50 86-92 58 70 62-28 28 126H36z" fill="#F8E7DF"/>
+      <path d="M48 214c70-8 78-86 140-86 52 0 64 58 118 50 60-8 70-92 136-78 52 12 70 58 92 54" stroke="#E8C4B6" stroke-width="1.6" stroke-linecap="round"/>
+      <path d="M40 228 128 124l48 44 66-74 50 54 84-90 56 68 64-26 36 128" stroke="#E09A88" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"/>
+      <path d="M28 236h506" stroke="#E7CABB" stroke-width="1.4" stroke-linecap="round"/>
+      <circle cx="438" cy="78" r="22" stroke="#E7B7A8" stroke-width="1.5"/>
+      <path d="M300 34c62 22 96 12 196 58" stroke="#E09A88" stroke-width="1.7" stroke-linecap="round"/>
+      <path d="M392 52c14-26 42-28 58-8" stroke="#E8B4A6" stroke-width="1.4" stroke-linecap="round"/>
+      <path d="M454 70c18-8 34 6 30 22" stroke="#E8B4A6" stroke-width="1.3" stroke-linecap="round"/>
+      <g fill="#F8D9D0" stroke="#E09A88" stroke-width="1.1">
+        <circle cx="318" cy="42" r="8"/><circle cx="352" cy="26" r="5.5"/><circle cx="412" cy="38" r="9"/>
+        <circle cx="456" cy="24" r="6"/><circle cx="492" cy="78" r="7"/><circle cx="470" cy="96" r="4.5"/>
+        <circle cx="368" cy="58" r="4"/>
+      </g>
+      <g fill="#C24E3A">
+        <circle cx="318" cy="42" r="1.7"/><circle cx="412" cy="38" r="2"/><circle cx="492" cy="78" r="1.6"/>
+        <circle cx="456" cy="24" r="1.4"/>
+      </g>
+      <g transform="translate(214,186)">
+        <path d="M22 52h118a10 10 0 0 0 10-10V34a10 10 0 0 0-5.4-8.8L118 14H68L46 32H22a10 10 0 0 0-10 10v10z" fill="#fff" stroke="#1B2A4A" stroke-width="1.8" stroke-linejoin="round"/>
+        <path d="M48 32 66 16h48l22 16" stroke="#1B2A4A" stroke-width="1.6" stroke-linejoin="round"/>
+        <path d="M74 32V16M104 16v16" stroke="#1B2A4A" stroke-width="1.4"/>
+        <circle cx="42" cy="54" r="9" fill="#fff" stroke="#1B2A4A" stroke-width="1.8"/>
+        <circle cx="118" cy="54" r="9" fill="#fff" stroke="#1B2A4A" stroke-width="1.8"/>
+        <circle cx="42" cy="54" r="3.2" fill="#C24E3A"/>
+        <circle cx="118" cy="54" r="3.2" fill="#C24E3A"/>
+      </g>
+    </svg>`;
+    return art;
+  }
+
   function renderHome() {
     const hero = el('section', 'hero');
     const intro = el('div', 'hero-copy');
-    intro.append(el('p', 'eyebrow hero-eyebrow', 'ROAD QUIZ · JAPAN'),
+    intro.append(
       el('h1', '', '日本自駕情境模擬'),
-      el('p', 'hero-subtitle', '透過情境題目認識日本交通規則。'));
-    const route = el('div', 'hero-route');
-    route.setAttribute('aria-hidden', 'true');
-    route.append(el('span', 'route-dot route-start'), el('span', 'route-line'), el('span', 'route-dot route-end'), el('span', 'route-word', 'QUIZ'));
-    hero.append(intro, route);
+      el('p', 'hero-subtitle', '透過情境題目認識日本交通規則。')
+    );
+    hero.append(intro, heroArt());
     app.append(hero);
 
     const scores = stageScores();
@@ -324,38 +356,50 @@
 
     const section = el('section', 'section');
     const heading = el('div', 'section-heading');
-    heading.append(el('div', '', undefined));
-    heading.firstChild.append(el('p', 'eyebrow', 'CHOOSE A STAGE'), el('h2', 'section-title', '八段自駕旅程'));
+    const headingCopy = el('div', 'section-heading-copy');
+    headingCopy.append(el('p', 'eyebrow', '選擇關卡'), el('h2', 'section-title', '八段自駕旅程'));
     if (avg !== null) {
-      heading.firstChild.append(el('p', 'home-average', `已玩關卡平均：${avg}`));
+      headingCopy.append(el('p', 'home-average', `已玩關卡平均：${avg}`));
     }
-    heading.append(button('查看完整結果 ↗', 'button button-ghost', showResults));
+    heading.append(headingCopy, button('查看完整結果 ↗', 'button button-ghost', showResults));
     section.append(heading);
-    const grid = el('div', 'stage-grid row g-3');
+    const grid = el('div', 'stage-grid');
     for (const stage of stages()) {
-      const card = el('article', 'stage-card card col-12 col-sm-6 col-xl-3');
+      const card = el('article', 'stage-card');
+      card.dataset.stage = stage.id;
+      const media = el('div', 'card-media');
       if (stage.cover) {
         const cover = el('img', 'card-cover');
         cover.src = stage.cover;
-        cover.alt = stage.name;
+        cover.alt = '';
         cover.loading = 'lazy';
-        card.append(cover);
+        media.append(cover);
       }
-      const top = el('div', 'stage-card-top');
-      top.append(el('span', 'stage-number', stage.id), el('span', 'stage-status', '● 可進入'));
+      const badge = el('span', 'stage-badge', stage.id);
+      media.append(badge);
+      card.append(media);
+
+      const body = el('div', 'stage-body');
+      body.append(el('h3', 'stage-title', stage.name), el('p', 'stage-setting', stage.setting));
       const hasAnswered = stageQuestions(stage.id).some(firstAnswer);
       const stageScore = scores[stage.id];
       const isPlayed = hasAnswered && stageScore !== null && stageScore !== undefined;
-      const scoreEl = el('div', isPlayed ? 'card-score' : 'card-score is-unplayed');
+      const scoreEl = el('p', isPlayed ? 'card-score' : 'card-score is-unplayed');
       scoreEl.append(
+        el('span', 'card-score-label', '目前分數'),
         el('strong', 'card-score-value', isPlayed ? stageScore : '—'),
-        el('span', 'card-score-unit', ' / 100')
+        el('span', 'card-score-unit', '/ 100')
       );
-      card.append(top, el('h3', '', stage.name), scoreEl, el('p', 'stage-setting', stage.setting));
       const stats = el('div', 'stage-stats');
-      stats.append(el('span', '', `${stageQuestions(stage.id).length} 題`), el('span', '', `最佳答對率 ${accuracy(stage.id) === null ? '—' : `${accuracy(stage.id)}%`}`));
-      card.append(stats);
-      card.append(button('進入關卡 →', 'stage-open', () => openStage(stage.id)));
+      const rate = accuracy(stage.id);
+      stats.append(
+        el('span', '', `${stageQuestions(stage.id).length} 題`),
+        el('span', '', `最佳答對率 ${rate === null ? '—' : `${rate}%`}`)
+      );
+      const open = button('進入關卡 →', 'stage-open', () => openStage(stage.id));
+      open.setAttribute('aria-label', `進入關卡：${stage.id} ${stage.name}`);
+      body.append(scoreEl, stats, open);
+      card.append(body);
       grid.append(card);
     }
     section.append(grid);
@@ -585,6 +629,11 @@
     const progress = el('div', 'progress-track progress');
     const bar = el('div', 'progress-bar');
     bar.style.width = `${((session.index + 1) / session.list.length) * 100}%`;
+    progress.setAttribute('role', 'progressbar');
+    progress.setAttribute('aria-valuemin', '1');
+    progress.setAttribute('aria-valuemax', String(session.list.length));
+    progress.setAttribute('aria-valuenow', String(session.index + 1));
+    progress.setAttribute('aria-label', `第 ${session.index + 1} 題，共 ${session.list.length} 題`);
     progress.append(bar);
     section.append(progress);
     const card = el('article', 'question-card');
@@ -657,7 +706,7 @@
     const index = stages().findIndex((item) => item.id === session.id);
     const nextStage = stages()[index + 1];
     const section = el('section', 'end-card');
-    section.append(el('p', 'eyebrow', 'STAGE COMPLETE'), el('h1', '', `${stage?.name || session.id} 完成！`));
+    section.append(el('p', 'eyebrow', '關卡完成'), el('h1', '', `${stage?.name || session.id} 完成！`));
     section.append(el('p', 'end-score', `${score} / 100`), el('p', 'end-caption', `本關得分（答對率 ${rate}%）`));
     if (nextStage) {
       section.append(el('p', 'end-message success', `下一關：${nextStage.name}`));
@@ -671,13 +720,13 @@
 
   function renderResults() {
     const section = el('section', 'results');
-    section.append(el('p', 'eyebrow', 'YOUR RESULTS'), el('h1', 'page-title', '學習結果'),
+    section.append(el('p', 'eyebrow', '成績總覽'), el('h1', 'page-title', '學習結果'),
       el('p', 'page-intro', '首次作答的結果會保留；回顧錯題並重新練習。'));
     addScoreboard(section);
     const lost = questions().filter((question) => firstAnswer(question)?.correct === false);
     const heading = el('div', 'section-heading results-heading');
     heading.append(el('div', '', undefined));
-    heading.firstChild.append(el('p', 'eyebrow', 'REVIEW'), el('h2', 'section-title', `失分題目 · ${lost.length}`));
+    heading.firstChild.append(el('p', 'eyebrow', '錯題回顧'), el('h2', 'section-title', `失分題目 · ${lost.length}`));
     section.append(heading);
     if (!lost.length) {
       section.append(el('div', 'empty-state', '目前沒有失分題目。'));
